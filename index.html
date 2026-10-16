@@ -86,6 +86,7 @@ main{max-width:980px;margin:0 auto;padding:18px 16px 40px}
 .opt input{margin-top:3px;accent-color:var(--navy);width:18px;height:18px;flex:0 0 auto}
 .opt small{color:var(--muted)}
 .opt.other{flex-wrap:wrap}
+.opt.other:not(:has(input:checked)) input[type=text]{background:#f3f4f6;border-style:dashed}
 .opt.other input[type=text]{flex:1 1 180px;margin:0;width:auto;height:auto}
 .opt:has(input:checked){border-color:var(--navy);background:#f3f6fb}
 
@@ -107,6 +108,8 @@ textarea{min-height:96px;resize:vertical}
 .pill{position:relative}
 .pill input{position:absolute;opacity:0;pointer-events:none}
 .pill span{display:inline-block;padding:5px 10px;border:1px solid #cfd5df;border-radius:999px;font-size:13.5px;cursor:pointer;background:#fff;white-space:nowrap;user-select:none}
+.pill input:disabled+span{opacity:.35;cursor:not-allowed;border-style:dashed}
+.t td input:disabled,.t td select:disabled,.ri select:disabled{background:#f3f4f6;border-style:dashed;cursor:not-allowed}
 .pill input:checked+span{background:var(--pick);border-color:var(--pick);color:var(--pick-ink)}
 .pill input:focus-visible+span{outline:2px solid #9fb3d9}
 .lrow .other-in{margin-top:6px}
@@ -596,7 +599,28 @@ const num=v=>{const n=parseFloat(v);return isFinite(n)?n:0;};
 const fmt=n=>Math.round(n*100)/100;
 function hoursBetween(a,b){if(!a||!b)return null;const [h1,m1]=a.split(':').map(Number),[h2,m2]=b.split(':').map(Number);let d=(h2*60+m2)-(h1*60+m1);if(d<=0)d+=1440;return d/60;}
 
+/* "Other" rows can be answered only after the Other box is filled in */
+function enforceOther(){
+  const lock=(keys,has)=>keys.forEach(k=>{
+    document.querySelectorAll(`[data-k="${CSS.escape(k)}"]`).forEach(el=>{
+      el.disabled=!has;
+      if(!has){ if(el.type==='radio'||el.type==='checkbox')el.checked=false; else el.value=''; }
+    });
+    if(!has&&S[k])S[k]='';
+  });
+  ALLQ.forEach(q=>{
+    if(q.t==='likert'&&q.other){
+      lock([q.id+' Other'],!!String(S[q.id+' Other (specify)']||'').trim());
+    }else if(q.t==='rankall'&&q.other){
+      lock([q.id+' Other'],!!String(S[q.id+' Other (specify)']||'').trim());
+    }else if(q.t==='table'&&q.rowOther){
+      const has=!!String(S[q.id+' '+q.rowOther+' (specify)']||'').trim();
+      lock(q.cols.map(c=>q.id+' '+q.rowOther+' — '+c.label),has);
+    }
+  });
+}
 function update(){
+  enforceOther();
   ALLQ.forEach(q=>{if(q.show){const el=document.getElementById('q-'+q.id);if(el)el.classList.toggle('hidden',!q.show());}});
   // table totals
   ALLQ.filter(q=>q.t==='table'&&q.total).forEach(q=>{
@@ -623,12 +647,21 @@ function update(){
   });
 }
 
+function selectOther(qk){
+  const box=document.querySelector(`input[data-k="${CSS.escape(qk)}"][value="Other"]`);
+  if(box&&!box.checked){box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));}
+}
 function onChange(e){
   const el=e.target, k=el.dataset&&el.dataset.k; if(!k)return;
   if(el.type==='checkbox'){S[k]=[...document.querySelectorAll(`input[type=checkbox][data-k="${CSS.escape(k)}"]`)].filter(x=>x.checked).map(x=>x.value).join('; ');}
   else S[k]=el.value;
-  // typing in an "Other" box ticks the Other option
-  if(el.dataset.otherOf&&el.value){const box=document.querySelector(`input[data-k="${CSS.escape(el.dataset.otherOf)}"][value="Other"]`);if(box&&!box.checked){box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}));}}
+  // typing in an "Other" box selects the Other option
+  if(el.dataset.otherOf&&el.value)selectOther(el.dataset.otherOf);
+  // choosing a different option (or unticking Other) clears the Other text
+  if((el.type==='radio'||el.type==='checkbox')&&document.querySelector(`input[data-other-of="${CSS.escape(k)}"]`)){
+    const otherOn=String(S[k]||'').split('; ').includes('Other');
+    if(!otherOn){const t=document.querySelector(`input[data-other-of="${CSS.escape(k)}"]`);if(t.value){t.value='';}S[k+' Other (specify)']='';}
+  }
   const card=el.closest('.card'); if(card)card.classList.remove('err');
   update(); saveDraft();
 }
@@ -666,7 +699,8 @@ function toast(m,ms){const t=document.createElement('div');t.className='toast';t
 function payload(){
   const data={}, st=new Date(META.started), en=new Date();
   const timeCols={'Survey date':ymd(st),'Start time':hm(st),'End time':hm(en),'Time taken (minutes)':String(Math.max(0,Math.round((en-st)/60000)))};
-  ALLQ.forEach(q=>{const hidden=q.show&&!q.show();keysOf(q).forEach(k=>{data[k]=hidden?'':(S[k]??'');});});
+  ALLQ.forEach(q=>{const hidden=q.show&&!q.show();keysOf(q).forEach(k=>{data[k]=hidden?'':(S[k]??'');});
+    if((q.t==='radio'||q.t==='check')&&q.other&&!String(S[q.id]||'').split('; ').includes('Other'))data[q.id+' Other (specify)']='';});
   return {token:TOKEN,id:META.id,startedAt:META.started,submittedAt:new Date().toISOString(),
     device:navigator.userAgent.slice(0,180),hp:$('#hp').value,data:Object.assign({'Form language':({en:'English',hi:'Hindi',gu:'Gujarati'})[LANG]},timeCols,data)};
 }
@@ -801,6 +835,7 @@ document.querySelector('.langs').addEventListener('click',e=>{const b=e.target.c
 if(had)toast(tr('Your saved draft has been restored.'));
 $('#f').addEventListener('input',onChange);
 $('#f').addEventListener('change',onChange);
+$('#f').addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.otherOf)selectOther(t.dataset.otherOf);});
 $('#f').addEventListener('submit',e=>e.preventDefault());
 $('#next').onclick=()=>{const m=missingIn(SECTIONS[cur]);if(m.length){flagMissing(m);toast(tr('Please answer the required question(s) marked *'));return;}go(cur+1);};
 $('#prev').onclick=()=>go(cur-1);
