@@ -363,38 +363,25 @@ const SECTIONS=[
  {t:'radio',id:'A8',q:'Have you received formal training in traffic management?',opts:['Yes','No'],inline:true},
  {t:'fields',id:'A8b',label:'A8',q:'Year of your last traffic-management training',show:()=>S['A8']==='Yes',fields:[N('Year')]},
  {t:'radio',id:'A9',q:'Do you plan to continue working as a TRB jawan next year?',opts:['Yes','No','Not sure'],inline:true},
- {t:'radio',id:'A10',q:'Is your honorarium / payment received on time? (optional)',opts:['Yes','No','Prefer not to say'],inline:true},
+ {t:'radio',id:'A10',q:'Is your honorarium / payment received on time? (optional)',opts:['Yes','No','Prefer not to say'],inline:true}
 ]},
 {id:'B',grp:'P',show:PER,title:'Working hours and duty patterns',qs:[
  {t:'check',id:'B1',q:'Your usual shift types (tick all that apply)',other:true,opts:[
   'Morning / Early Shift (e.g., 6 AM–2 PM / 7 AM–3 PM)','Afternoon / Evening Shift (e.g., 2 PM–10 PM / 3 PM–11 PM)','Night Shift (e.g., 10 PM–6 AM)','General / Day Duty (fixed daytime duty)','Two-Shift System (morning + evening)','Three-Shift System (morning + evening + night)','Rotating Shift (shift changes periodically)','Split Shift (morning duty + evening duty)','Peak-Hour / Staggered Duty (deployment during peak traffic hours)','On-Call / Emergency Duty (called in when required)','Special / Event Duty (VIP, festival, procession, special events)']},
  {t:'fields',id:'B2',q:'Usual timings',fields:[TM('Weekday reporting time'),TM('Weekday relieving time'),TM('Weekend reporting time'),TM('Weekend relieving time')]},
  {t:'radio',id:'B3',q:'How often does your shift rotate?',opts:['Fixed','Daily','Weekly','Fortnightly','Monthly','As per requirement','No rotation'],inline:true},
- {t:'table',id:'B4',q:'Time use on a typical duty day',note:'Give approximate hours (e.g., 2.5). The total should equal your total duty hours.',rows:[
-   ['a. Fixed-point / Junction Traffic Control','traffic regulation at a designated location'],
-   ['b. Mobile Patrol','patrolling and monitoring traffic on assigned routes'],
-   ['c. Enforcement / Challan Work','traffic violations, checking, challans/e-challans'],
-   ['d. Incident / Crash Handling','road crashes, breakdowns, emergencies, incident management'],
-   ['e. Parking / Towing Enforcement','illegal parking, vehicle removal, roadside obstruction'],
-   ['f. Travel to / from Duty Location','movement between station and other duty locations'],
-   ['g. Waiting / Standby Duty','remaining available for deployment or instructions'],
-   ['h. Briefing, Reporting & Paperwork','briefing, registers, reports, documentation'],
-   ['i. Meal / Rest Breaks','']],rowOther:'j. Other',cols:[N('Hours per day')],total:true,dutyCheck:true},
  {t:'radio',id:'B5',q:'How often do you work beyond scheduled duty hours?',opts:['Never','1–2 days per month','About 1 day per week','2–3 days per week','Almost daily'],inline:true},
  {t:'fields',id:'B6',q:'When you work extra, how many extra hours on average?',fields:[N('Extra hours per occasion')]},
  {t:'likert',id:'B7',q:'How often are the following the reason for working extra hours?',scale:FREQ5,other:true,rows:['Crash / emergency incident','Heavy congestion','Festivals / events / VIP movement','Administrative / paperwork','Relief personnel not arriving / shortage','Court duty','Enforcement drives']},
  {t:'table',id:'B8',q:'Rest and non-deployable time',note:'Numbers for the LAST 12 MONTHS, approximate.',rows:['Weekly offs entitled per month','Weekly offs actually received per month (average)','Leave days taken in last 12 months','Training days in last 12 months','Court duty days in last 12 months','Days on deputation / bandobast outside traffic in last 12 months'],rowOther:'Other',cols:[N('Number of days')]},
  {t:'radio',id:'B9',q:'If you are posted at one location for your shift (for example, a junction, crossing, or market point), is relief provided for meal / rest breaks?',opts:['Always','Often','Sometimes','Rarely','Never','NA'],inline:true},
  {t:'fields',id:'B10',q:'Night duty',fields:[N('Nights you worked last month')]},
- {t:'fields',id:'B11',q:'On most days, how many hours do you actually work, including extra time?',fields:[N('Hours per day')]},
- {t:'fields',id:'B12',q:'Travel time from home to your duty point (one way)',fields:[N('Minutes')]},
+ {t:'fields',id:'B12',q:'Travel time from home to your duty point (one way)',fields:[N('Minutes')]}
 ]},
 {id:'L',grp:'P',show:PER,title:'Your last duty day',qs:[
  {t:'fields',id:'L1',q:'Your last duty day',note:'Please answer about your most recent duty day (for example, yesterday), not a typical day.',fields:[{label:'Date',type:'date'},TM('Reporting time'),TM('Relieving time')]},
  {t:'fields',id:'L2',q:'Approximate time spent on each activity that day (minutes)',fields:[N('Junction / point control'),N('Enforcement / challan work'),N('Patrol'),N('Incident / crash handling'),N('Parking / towing'),N('Travel between points'),N('Waiting / standby'),N('Briefing / paperwork'),N('Meal / rest')]},
- {t:'fields',id:'L3',q:'Shifting and breaks that day',fields:[N('Times shifted to another point or task'),N('Length of meal / rest break (minutes)')]},
- {t:'radio',id:'L4',q:'Did someone relieve you for your meal / rest break that day?',opts:['Yes','No','No break taken'],inline:true},
- {t:'fields',id:'L5',q:'Incidents and challans that day',fields:[N('Incidents you handled (crash, breakdown, signal failure, dispute)'),N('Challans you issued')]},
+ {t:'fields',id:'L5',q:'Incidents and challans that day',fields:[N('Incidents you handled (crash, breakdown, signal failure, dispute)'),N('Challans you issued')]}
 ]},
 {id:'C',grp:'P',show:PER,title:'Existing manpower and deployment',qs:[
  {t:'table',id:'C1',star:true,q:'Shift structure of your unit on a typical weekday',rows:['Shift 1','Shift 2','Shift 3','Additional peak-hour shift'],cols:[TM('Start time'),TM('End time'),N('Personnel deployed'),N('Overlap with next shift (min)')]},
@@ -419,11 +406,10 @@ const SECTIONS=[
  {t:'fields',id:'C19',q:'Points you supervise',fields:[N('Duty points you supervise in a shift'),N('Distance covered checking points (km per shift)'),N('Times you check each point per shift')]},
  {t:'fields',id:'C20',q:'Your team',fields:[N('Police constables in your team'),N('TRB jawans in your team')]},
  {t:'radio',id:'C21',q:'Who covers when a member of your team is absent?',opts:['No one','Another team','A TRB jawan','I cover it myself'],other:true},
- {t:'check',id:'C22',q:'Equipment you personally have (tick all that apply)',opts:['e-Challan handheld device','Body-worn camera','Wireless set'],inline:true},
- {t:'likert',id:'C23',q:'Is a police person present with you at your point?',scale:['Always','Sometimes','Never'],rows:['Morning peak (MP)','Midday (MD)','Evening peak (EP)','Night (NT)']},
+ {t:'likert',id:'C23',q:'Is a police person present with you at your point?',scale:['Always','Sometimes','Never'],rows:['Morning peak (MP)','Midday (MD)','Evening peak (EP)','Night (NT)']}
 ]},
 {id:'D',grp:'P',show:PER,title:'Traffic control and routine operational tasks',qs:[
- {t:'table',id:'D1',q:'Routine tasks performed in a typical shift',note:'Leave a row blank if you do not perform that task.',rows:['a. Manual traffic control at junction','b. Queue / spillback management','c. Traffic diversion','d. Pedestrian crossing assistance','e. School / college zone management','f. Market area / encroachment clearance','g. Parking enforcement / towing','h. Helmet / seat-belt / document checks','i. Wrong-side / signal-jumping enforcement','j. Drunk-driving checks','k. Vehicle breakdown / obstruction removal','l. Manual control during signal failure','m. BRTS / bus / auto-rickshaw regulation','n. Public complaints / queries'],rowOther:'o. Other',cols:[N('Times per shift'),N('Avg. minutes each'),N('Personnel needed'),SEL('Needs continuous presence? (Y/N)',YN)]},
+ {t:'table',id:'D1',q:'Routine tasks performed in a typical shift',note:'Leave a row blank if you do not perform that task.',rows:['a. Manual traffic control at junction','b. Queue / spillback management','c. Traffic diversion','d. Pedestrian crossing assistance','e. School / college zone management','f. Market area / encroachment clearance','g. Parking enforcement / towing','h. Helmet / seat-belt / document checks','i. Wrong-side / signal-jumping enforcement','j. Drunk-driving checks','k. Vehicle breakdown / obstruction removal','l. Manual control during signal failure','m. BRTS / bus / auto-rickshaw regulation','n. Public complaints / queries'],rowOther:'o. Other',cols:[N('Times per shift'),N('Avg. minutes each'),N('Personnel needed')]},
  {t:'likert',id:'D2',q:'How necessary is continuous police presence at your main location in each time band?',scale:NEED5,rows:['Morning peak (MP)','Midday (MD)','Evening peak (EP)','Night (NT)','Weekend']},
  {t:'likert',id:'D3',q:'How much does each condition increase the need for ADDITIONAL personnel?',scale:IMPACT5,other:true,rows:['Heavy traffic queues / congestion','Conflicts','Traffic signal failure','High pedestrian activity','Road works / Metro construction','Spillback from nearby junctions','Waterlogging during monsoon','On-street parking / roadside encroachment','Nearby events / public gatherings','VIP / VVIP movement','Road crashes / major incidents','School / college peak periods','Market / commercial-area activity','Special traffic diversions']},
  {t:'radio',id:'D4',q:'Signal status at your main junction',opts:['Adaptive / ATCS','Fixed-time signal','Blinker only','No signal','NA'],inline:true},
@@ -432,7 +418,7 @@ const SECTIONS=[
  {t:'check',id:'D7',q:'Types of enforcement drives conducted (tick all that apply)',other:true,inline:true,opts:['Helmet / seat-belt','Drunk driving','Over-speeding','Wrong-side driving','Illegal parking','Black film / number plate','Overloading / goods vehicles','Auto-rickshaw / private bus','Noise / modified silencer']},
  {t:'rank',id:'D8',q:'Which violations take the MOST police time? Rank the top 3 (1 = most time)',picks:3,items:['Helmet / seat-belt','Drunk driving','Over-speeding','Wrong-side driving','Signal jumping','Illegal parking','Black film / number plate','Overloading / goods vehicle entry'],other:true},
  {t:'fields',id:'D9',q:'Routine checking and response to individual violations',fields:[N('Routine checking — hours per shift'),N('Routine checking — personnel involved'),N('Average minutes to process one violation stop / challan')]},
- {t:'fields',id:'D10',q:'Towing operations (if applicable)',fields:[N('Cranes available in unit'),N('Personnel per crane'),N('Tow trips per crane per shift')]}
+ {t:'fields',id:'D10',q:'Towing operations (if applicable)',fields:[N('Personnel per crane'),N('Tow trips per crane per shift')]}
 ]},
 {id:'E',grp:'P',show:PER,title:'Crash and emergency incident response',qs:[
  {t:'table',id:'E1',q:'Incidents in {PAREA} and resources needed',rows:['Minor crash (no / minor injury)','Serious injury crash','Fatal crash','Vehicle breakdown','Obstruction (tree fall, debris, waterlogging)','Signal failure','Hazardous / fuel spill','Road rage / public dispute'],cols:[N('No. per week'),N('Personnel needed'),N('Report → arrival (min)'),N('Arrival → normal traffic (min)')]},
@@ -441,7 +427,7 @@ const SECTIONS=[
  {t:'radio',id:'E4',q:'How are you MOST often informed of an incident? (tick ONE)',other:true,opts:['Wireless / Radio','Mobile / Telephone Call','Control Room / ICCC System','Face-to-Face / Direct Communication']},
  {t:'fields',id:'E5',q:'Break-up of response time for a serious crash (minutes)',fields:[N('Information received → dispatch'),N('Dispatch → arrival at scene')]},
  {t:'likert',id:'E6',q:'How often do the following delay or hamper incident response?',scale:FREQ5,other:true,rows:['Congestion on the way','Vehicle not available','Personnel not available','Delay of ambulance (108)','Delay of crane / towing','Crowd gathering at scene','Documentation / legal formalities','Poor communication with control room']},
- {t:'likert',id:'E7',q:'Availability of equipment for incident management',scale:AVAIL3,other:true,rows:['Barricades / traffic cones','Reflective jackets / batons with light','First-aid kit','Wireless / communication set','Body-worn camera','Response vehicle','Crane / towing vehicle']}
+ {t:'likert',id:'E7',q:'Availability of equipment for incident management',scale:AVAIL3,other:true,rows:['Barricades / traffic cones','Reflective jackets / batons with light','First-aid kit','Response vehicle','Crane / towing vehicle']}
 ]},
 {id:'F',grp:'P',show:PER,title:'Patrol, coordination and special duties',qs:[
  {t:'radio',id:'F1',q:'Do you carry out mobile patrol?',opts:['Yes','No (go to F4)'],inline:true},
@@ -459,15 +445,14 @@ const SECTIONS=[
  {t:'rankall',id:'G3',q:'If additional personnel were made available, rank the following areas that should receive attention on priority (1 = highest).',items:['Peak-hour junction control','Night patrol','Incident response teams','Enforcement drives','School / market zones','Parking / towing','Event / VIP management','Relief for breaks and weekly offs'],other:true},
  {t:'radio',id:'G4',q:'Priority time band for additional personnel (tick ONE)',opts:['Morning Peak (MP)','Midday (MD)','Evening Peak (EP)','Night (NT)','Weekends'],inline:true},
  {t:'table',id:'G5',q:'Priority locations for additional personnel (up to 3)',rowName:'Location',rowsN:3,cols:[T('Location name',1)]},
- {t:'likert',id:'G6',q:'Expected improvement if additional personnel are provided',scale:IMPACT5,other:true,rows:['Reduced traffic congestion and improved traffic flow','Faster response to crashes, incidents, and emergencies','Increased coverage of traffic enforcement activities','Improved management of pedestrian and vulnerable-road-user movements','Improved traffic management at high-demand locations','Improved road-safety monitoring and preventive action','Reduced workload and fatigue among existing personnel','Improved availability of relief, weekly off, and leave']},
  {t:'fields',id:'G7',star:true,q:'Estimated ADDITIONAL personnel needed in your unit today (as per your perspective)',fields:[N('PSI'),N('ASI'),N('Head Constable'),N('Constable'),N('TRB')],sum:true}
 ]},
 {id:'H',grp:'P',show:PER,title:'Working conditions',qs:[
  {t:'likert',id:'H1',q:'Availability of facilities at or near your duty point',scale:AVAIL3,rows:['Shelter / police booth / shade','Drinking water','Toilet','Rest room','Summer protection (cap, cooling, ORS)','Mask for pollution','Raincoat / monsoon gear']},
- {t:'likert',id:'H2',q:'Indicate your agreement with the following statements.',scale:AGREE5,rows:['Summer heat limits the duration of continuous point duty.','Air pollution makes traffic-duty conditions more difficult.','Monsoon conditions make traffic duty more difficult.','Long periods of standing or continuous duty cause significant fatigue.','Night-duty deployment provides adequate personnel for safe and effective traffic management.','Adequate rest breaks are available during long duty periods.','Relief personnel are available when required during point duty.','Available personnel are sufficient to manage sudden increases in traffic demand.','Roadside working conditions make prolonged traffic duty difficult.','Lack of proper shelter or shaded areas affects the effectiveness of point duty.','Traffic noise makes prolonged point duty difficult.','Staff shortages increase the workload on personnel during peak periods.','Current deployment allows personnel to take weekly off and leave as scheduled.','Existing manpower is sufficient to maintain continuous coverage at critical locations.']},
+ {t:'likert',id:'H2',q:'Indicate your agreement with the following statements.',scale:AGREE5,rows:['Summer heat limits the duration of continuous point duty.','Air pollution makes traffic-duty conditions more difficult.','Monsoon conditions make traffic duty more difficult.','Long periods of standing or continuous duty cause significant fatigue.','Night-duty deployment provides adequate personnel for safe and effective traffic management.','Roadside working conditions make prolonged traffic duty difficult.','Lack of proper shelter or shaded areas affects the effectiveness of point duty.','Traffic noise makes prolonged point duty difficult.']},
  {t:'fields',id:'H3',q:'Maximum continuous hours at a point that are practical without relief',fields:[N('Summer (hours)'),N('Monsoon (hours)'),N('Winter (hours)')]},
  {t:'radio',id:'H4',q:'In the last 12 months, were you hit by a vehicle or injured while on duty?',opts:['Yes','No'],inline:true},
- {t:'fields',id:'H5',q:'Near-misses with vehicles while on duty',fields:[N('Near-misses in a typical month')]},
+ {t:'fields',id:'H5',q:'Near-misses with vehicles while on duty',fields:[N('Near-misses in a typical month')]}
 ]},
 {id:'I',grp:'P',show:PER,title:'Technology and records',qs:[
  {t:'table',id:'I1',q:'Technology available in your area',cards:true,note:'Mark whether it is available. If yes, choose how often you use it and how useful it is.',rows:['CCTV surveillance','ATCS / adaptive signals','ANPR / red-light & speed cameras','ICCC / control room link','e-Challan handheld device','Wireless / radio','Body-worn camera','Mobile app / WhatsApp group for coordination'],rowOther:'Other',cols:[Object.assign(SEL('Available (Y/N)',YN),{short:'Available?',labels:['Yes','No']}),
@@ -478,7 +463,6 @@ const SECTIONS=[
  {t:'likert',id:'I4',q:'How important would each change be for improving traffic-policing effectiveness?',scale:IMPORT5,rows:['Better deployment / roster practices','Improved junction / road infrastructure','More equipment (barricades, body cams, etc.)','More vehicles / cranes','Better inter-agency coordination','Training of personnel','More technology (CCTV, ATCS, ANPR)','More personnel','Better facilities at duty points']}
 ]},
 {id:'J',grp:'P',show:PER,title:'Future demand (foresight)',qs:[
- {t:'radio',id:'J1',q:'Will expansion of technology (cameras, ATCS, ICCC) reduce manpower needs in the next 10–15 years?',opts:['Reduce a lot','Reduce somewhat','No change','Increase','Cannot say'],inline:true},
  {t:'likert',id:'J2',q:'Expected change in manpower need in your area',scale:CHANGE5,rows:['a. Next 5 years','b. Next 10 years','c. Next 15 years']},
  {t:'likert',id:'J3',q:'How much will each factor increase future traffic-policing needs in your area?',scale:IMPACT5,other:true,rows:['Growth in number of vehicles','Population growth','New residential areas / townships','Commercial / office growth','Metro expansion','BRTS / bus network expansion','New flyovers / ring roads / corridors','Mega events (e.g., Commonwealth Games 2030)']},
  {t:'likert',id:'J4',q:'How important is each factor in deciding traffic-police manpower for Ahmedabad?',scale:IMPORT5,other:true,rows:['Traffic volume','Number of signalised junctions','Crash frequency / blackspots','Road length / network size','Population','Area of jurisdiction','Events and VIP movement','Commercial / market density','Pedestrian volume']}
@@ -521,7 +505,7 @@ const SECTIONS=[
  {t:'fields',id:'SO-C9',label:'C9',q:'Women personnel in traffic',show:TOP,fields:[N('Target share of women in traffic personnel (%)'),{label:'Duties suited for women personnel',type:'text',wide:true}]},
  {t:'fields',id:'SO-C10',label:'C10',q:'Recruitment and training capacity',show:TOP,fields:[N('New traffic personnel that can be recruited and trained per year')]},
  {t:'radio',id:'SO-C11',label:'C11',q:'The share of TRB jawans / Home Guards in traffic deployment should…',show:ANY,inline:true,opts:['Increase','Stay the same','Decrease']},
- {t:'fields',id:'SO-C12',label:'C12',q:'Night-time standard for {AREA}',show:ANY,fields:[N('Night patrol units needed'),N('Major junctions to be manned at night')]},
+ {t:'fields',id:'SO-C12',label:'C12',q:'Night-time standard for {AREA}',show:ANY,fields:[N('Night patrol units needed'),N('Major junctions to be manned at night')]}
 ]},
 {id:'SD',grp:'S',show:SEN,tag:'D',chip:'D',lbl:'Part D',title:'Future demand and technology',qs:[
  {t:'fields',id:'SO-D1',label:'D1',q:'Expected change in traffic-policing workload in {AREA} (% compared to today)',note:'Use a minus sign for a decrease (for example, -10).',show:()=>ANY()&&!isACP(),fields:[NN('By 2030'),NN('By 2035'),NN('By 2040')]},
@@ -544,9 +528,9 @@ const SECTIONS=[
 /* ═══════════════════════ RANK-WISE QUESTIONS (personnel) ═══════════════════════
    Which personnel ranks see each question. Not listed = everyone. "Other" sees everything. */
 const P_RULES={
- A7:'PSI ASI HC PC TRB',
- B4:'PSI ASI HC PC TRB', B9:'ASI HC PC TRB',
- C1:'PI PSI', C2:'PI', C3:'PI PSI', C4:'PI PSI ASI HC', C5:'PI PSI ASI HC', C6:'PI PSI', C6b:'PI PSI', C7:'PI PSI',
+ A7:'PC TRB',
+ B9:'ASI HC PC TRB',
+ C1:'PI PSI', C2:'PI', C3:'PI PSI', C4:'PSI ASI HC', C5:'PSI ASI HC', C6:'PI PSI', C6b:'PI PSI', C7:'PI PSI',
  C8:'PSI ASI HC PC TRB', C9:'ASI HC PC TRB', C10:'ASI HC PC TRB', C11:'ASI HC PC TRB',
  D1:'PSI ASI HC PC TRB', D4:'PSI ASI HC PC TRB', D5:'PSI ASI HC PC TRB', D6:'PI PSI ASI HC', D7:'PI PSI ASI HC', D8:'PI PSI ASI HC',
  D9:'ASI HC PC', D10:'PI PSI',
@@ -556,11 +540,11 @@ const P_RULES={
  G1:'PI PSI', G3:'PI PSI', G4:'PI PSI ASI HC', G5:'PI PSI ASI HC', G7:'PI PSI',
  H1:'PSI ASI HC PC TRB', H3:'PSI ASI HC PC TRB',
  I2:'PI PSI ASI', I3:'PI PSI ASI',
- J1:'PI', J2:'PI', J3:'PI', J4:'PI',
+ J2:'PI', J3:'PI', J4:'PI',
  A9:'TRB', A10:'TRB',
- B10:'PSI ASI HC PC TRB', B11:'PSI ASI HC PC TRB', B12:'HC PC TRB',
- L1:'PSI ASI HC PC TRB', L2:'PSI ASI HC PC TRB', L3:'PSI ASI HC PC TRB', L4:'PSI ASI HC PC TRB', L5:'ASI HC PC',
- C13:'PI', C14:'PI', C15:'PI', C16:'PI', C17:'PSI', C18:'PSI', C19:'ASI', C20:'HC', C21:'HC', C22:'HC PC', C23:'TRB',
+ B10:'PSI ASI HC PC TRB', B12:'HC PC TRB',
+ L1:'PSI ASI HC PC TRB', L2:'PSI ASI HC PC TRB', L5:'ASI HC PC',
+ C13:'PI', C14:'PI', C15:'PI', C16:'PI', C17:'PSI', C18:'PSI', C19:'ASI', C20:'HC', C21:'HC', C23:'TRB',
  H4:'ASI HC PC TRB', H5:'ASI HC PC TRB'
 };
 SECTIONS.filter(x=>x.grp==='P').forEach(sec=>{
